@@ -20,10 +20,11 @@ public class ServiceLocator : IServiceLocator
     private readonly ConcurrentDictionary<Type, object> hooks = new();
     public IEnumerable<ICommandHook<T>> GetCommandHooks<T>()
     {
-        return (IEnumerable<ICommandHook<T>>) hooks.GetOrAdd(typeof(T), (type) =>
+        var list = (LinkedList<CommandHookWrapper<T>>)hooks.GetOrAdd(typeof(T), (type) =>
         {
-            return new LinkedList<ICommandHook<T>>();
+            return new LinkedList<CommandHookWrapper<T>>();
         });
+        return list;
     }
 
     public ICommandHandler<T> GetHandler<T>()
@@ -38,23 +39,34 @@ public class ServiceLocator : IServiceLocator
 
     public IDisposable AddHook<T>(ICommandHook<T> hook)
     {
+        var currentList = (LinkedList<CommandHookWrapper<T>>) GetCommandHooks<T>();
+        var newEntry = new CommandHookWrapper<T>(hook, currentList);
+        //Insert high values at front of list
 
+        return newEntry;
+
+        
     }
 
-    private class CommandHookWrapper<T> : ICommandHook<T>
+    private class CommandHookWrapper<T> : ICommandHook<T>, IDisposable
     {
         private readonly ICommandHook<T> hook;
+        private readonly LinkedList<CommandHookWrapper<T>> currentList;
 
-        public int Order { get; set; } = 0;
-
-        public CommandHookWrapper(ICommandHook<T> hook)
+        public CommandHookWrapper(ICommandHook<T> hook, LinkedList<CommandHookWrapper<T>> list)
         {
+            this.currentList = list;
             this.hook = hook;
         }
 
         public void Process(T command, Action<T> next)
         {
             hook.Process(command, next);
+        }
+
+        public void Dispose()
+        {
+            currentList.Remove(this);
         }
     }
 
