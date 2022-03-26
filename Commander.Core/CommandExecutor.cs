@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Commander.Core.CommandProvider;
 
 namespace Commander.Core
 {
     public class CommandExecutor : ICommandExecutor
     {
-        private IServiceLocator serviceLocator;
+        private ICommandProvider provider;
 
-        public CommandExecutor(IServiceLocator locator)
+        public CommandExecutor(ICommandProvider provider)
         {
-            this.serviceLocator = locator;
+            this.provider = provider;
         }
         private Action<T> buildPipeline<T>(ICommandHandler<T> handler, IEnumerable<ICommandHook<T>> hooks)
         {
@@ -21,8 +17,8 @@ namespace Commander.Core
         }
         public void Execute<T>(T command)
         {
-            var handler = serviceLocator.GetHandler<T>();
-            var hooks = serviceLocator.GetCommandHooks<T>();
+            var handler = provider.GetHandler<T>();
+            var hooks = provider.GetCommandHooks<T>();
             Action<T> pipeline = buildPipeline(handler, hooks);
             pipeline(command);
         }
