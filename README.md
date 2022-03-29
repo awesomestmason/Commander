@@ -1,5 +1,5 @@
 ## Commander
-Commander is a lightweight, flexible and extensinsible command framework written in C#.
+Commander is a lightweight, flexible and extensible command framework written in C#.
 
 ### Examples
 
