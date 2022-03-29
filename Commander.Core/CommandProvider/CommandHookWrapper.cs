@@ -5,9 +5,11 @@ public class CommandHookWrapper<T> : ICommandHook<T>, IDisposable
 {
     private readonly ICommandHook<T> hook;
     private readonly SortedList<CommandHookWrapper<T>> currentList;
+    private readonly Action<Type> notifyChange;
     public readonly int Order;
-    public CommandHookWrapper(ICommandHook<T> hook, SortedList<CommandHookWrapper<T>> list, int order)
+    public CommandHookWrapper(ICommandHook<T> hook, SortedList<CommandHookWrapper<T>> list, Action<Type> notifyChange, int order)
     {
+        this.notifyChange = notifyChange;
         this.currentList = list;
         this.hook = hook;
         Order = order;
@@ -20,6 +22,7 @@ public class CommandHookWrapper<T> : ICommandHook<T>, IDisposable
 
     public void Dispose()
     {
+        notifyChange?.Invoke(typeof(T));
         currentList.Remove(this);
     }
 }

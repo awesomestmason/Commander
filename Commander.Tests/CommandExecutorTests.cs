@@ -96,8 +96,11 @@ namespace Commander.Tests
             [Fact]
             public void HookExecutes()
             {
-                hit = false;
                 TestCommand command = new TestCommand() { Payload = "Test" };
+
+                executor.Execute(command);
+
+                hit = false;
                 executor.Execute(command);
 
                 hit.Should().BeTrue();
@@ -120,9 +123,11 @@ namespace Commander.Tests
             [Fact]
             public void HooksExecuteInOrder()
             {
+                TestCommand command = new TestCommand() { Payload = "Test" };
+                executor.Execute(command);
+
                 int Counter = 0;
                 hit = false;
-                TestCommand command = new TestCommand() { Payload = "Test" };
                 locator.AddHook(new TestCommandHook((cmd, next) =>
                 {
                     cmd.Payload.Should().Be("Test");

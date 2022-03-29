@@ -5,6 +5,6 @@
 /// </summary>
 public interface ICommandProvider
 {
-    ICommandHandler<T> GetHandler<T>();
+    ICommandHandler<T>? GetHandler<T>();
     IEnumerable<ICommandHook<T>> GetCommandHooks<T>();
 }

@@ -1,4 +1,4 @@
-﻿namespace Commander.Core.CommandProvider;
+﻿namespace Commander.Core.Util;
 
 public class VoidHandler<T> : ICommandHandler<T>
 {
