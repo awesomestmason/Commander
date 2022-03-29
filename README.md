@@ -1,5 +1,5 @@
 ## Commander
-Commander is a lightweight, flexible and extensinsible command framework written in C#.
+Commander is a lightweight, flexible and extensible command framework written in C#.
 
 ### Examples
 
@@ -7,6 +7,10 @@ Commander is a lightweight, flexible and extensinsible command framework written
 The CommandProvider is responsible for mapping command types to their respective handlers, and hooks.
 The CommandExecutor is responsible for executing commands.
 ```
+using Commander.Core;
+
+...
+
 CommandProvider provider = new CommandProvider();
 CommandExecutor Executor = new CommandExecutor(provider);
 ```
@@ -89,7 +93,7 @@ public class DoubleAllDamageHook : ICommandHook { //Remove generic type paramete
 ```
 - Cancelling commands
 ```
-public class DoubleAllDamageHook : ICommandHook<DamageCommand> {
+public class DontDamageInvincibleEntities : ICommandHook<DamageCommand> {
   public void Process(DamageCommand command, Action<DamageCommand> next){
     if(!command.Target.Entity.IsInvincible){
         return; //Command won't be handled!
@@ -109,7 +113,7 @@ public class DoubleAllDamageHook : ICommandHook<DamageCommand> {
 ```
 - Executing a hook after the command has been handled.
 ```
-public class DoubleAllDamageHook : ICommandHook<DamageCommand> {
+public class LogCommandResult : ICommandHook<DamageCommand> {
   public void Process(DamageCommand command, Action<DamageCommand> next){
     next(command); //Call next() first, to ensure the command has been fully handled before running the next line.
     Console.WriteLine($"Entity now has {command.Target.Health} health");
