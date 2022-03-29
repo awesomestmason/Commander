@@ -1,4 +1,4 @@
-﻿namespace Commander.Core.CommandProvider;
+﻿namespace Commander.Core;
 
 /// <summary>
 /// Responsible for providing Command Handler and Hooks to the <see cref="CommandExecutor">Executor</see>

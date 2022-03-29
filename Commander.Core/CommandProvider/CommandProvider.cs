@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using Commander.Core.Util;
-namespace Commander.Core.CommandProvider;
+namespace Commander.Core;
 public partial class CommandProvider : INotifyChangeCommandProvider
 {
     //Map of all Command Handlers

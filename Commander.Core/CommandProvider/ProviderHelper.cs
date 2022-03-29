@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
-namespace Commander.Core.CommandProvider;
+namespace Commander.Core;
 
 public static class ProviderHelper
 {

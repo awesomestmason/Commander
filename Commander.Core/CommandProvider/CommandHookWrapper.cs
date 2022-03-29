@@ -1,5 +1,5 @@
 ﻿using Commander.Core.Util;
-namespace Commander.Core.CommandProvider;
+namespace Commander.Core;
 
 public class CommandHookWrapper<T> : ICommandHook<T>, IDisposable
 {

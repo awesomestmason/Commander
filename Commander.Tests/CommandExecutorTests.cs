@@ -1,13 +1,11 @@
-﻿
-using Commander.Core;
+﻿using Commander.Core;
 using FluentAssertions;
 using System;
 using Xunit;
-using Commander.Core.CommandProvider;
 
 namespace Commander.Tests
 {
-    public class TestCommand
+    public struct TestCommand
     {
         public string Payload { get; set; }
     }
@@ -180,6 +178,28 @@ namespace Commander.Tests
                 hook.Dispose();
                 executor.Execute(command);
                 Counter.Should().Be(1);
+                hit.Should().BeTrue();
+            }
+
+
+            [Fact]
+            public void HooksCanModifyCommand()
+            {
+                hit = false;
+                TestCommand command = new TestCommand() { Payload = "Test" };
+                var hook = locator.AddHook(new TestCommandHook((cmd, next) =>
+                {
+                    cmd.Payload.Should().Be("Test");
+                    cmd.Payload = "Test2";
+                    next(cmd);
+                }));
+
+                locator.SetHandler(new TestCommandHandler((cmd) =>
+                {
+                    cmd.Payload.Should().Be("Test2");
+                    hit = true;
+                }));
+                executor.Execute(command);
                 hit.Should().BeTrue();
             }
         }

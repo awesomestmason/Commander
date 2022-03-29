@@ -1,5 +1,4 @@
-﻿using Commander.Core.CommandProvider;
-using Commander.Core.Util;
+﻿using Commander.Core.Util;
 using System.Collections.Concurrent;
 namespace Commander.Core
 {

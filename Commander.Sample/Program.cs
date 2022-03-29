@@ -1,4 +1,4 @@
-﻿using Commander.Core.CommandProvider;
+﻿using Commander.Core;
 
 public static class Program
 {

@@ -1,4 +1,4 @@
-﻿namespace Commander.Core.CommandProvider;
+﻿namespace Commander.Core;
 
 public interface INotifyChangeCommandProvider : ICommandProvider
 {
