@@ -7,6 +7,10 @@ Commander is a lightweight, flexible and extensinsible command framework written
 The CommandProvider is responsible for mapping command types to their respective handlers, and hooks.
 The CommandExecutor is responsible for executing commands.
 ```
+using Commander.Core;
+
+...
+
 CommandProvider provider = new CommandProvider();
 CommandExecutor Executor = new CommandExecutor(provider);
 ```
